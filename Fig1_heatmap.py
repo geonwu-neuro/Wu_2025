@@ -58,11 +58,11 @@ sorted_cst1, seg1 = sort_trace(cst1_df)
 #cta_trace = list(map(lambda x: convert_frame(x), [sorted_cst1]))
 cta_trace = convert_frame(sorted_cst1)
              
-#%%
+#
 time_count = [round(i) for i in list(np.arange(0, 644*0.03, 0.03))]
 xticks = [ i for i in list(np.arange(0, 644, 60))]
 
-#%% Plot sorted heatmap for cta group
+#Plot sorted heatmap 
 fig, ax = plt.subplots(1,2, figsize=(5.5,5.5), gridspec_kw= {'width_ratios' : (1, 0.08)})
 session_list = ['CST1','CST2']
 
