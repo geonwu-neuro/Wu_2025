@@ -1,17 +1,8 @@
 import numpy as np
 import pandas as pd
-import os
-import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import pandas as pd
-from IPython import get_ipython
-import math
-from scipy import stats
-from statsmodels.stats.anova import AnovaRM
-#import addcopyfighandler
 
-#get_ipython().run_line_magic('matplotlib', 'qt')
 plt.rcParams['figure.dpi'] = 600
 plt.rcParams['axes.spines.top'] = False
 plt.rcParams['axes.spines.right'] = False
@@ -48,8 +39,8 @@ def sort_trace(df):
 
     return sorted_df, seg_count
 
-# Change the column name from frame num to seconds 
-def convert_frame(trace):
+
+def convert_frame(trace):  # Change the column name from frame num to seconds 
     trace = trace.drop(columns = {'animalID', 'cs_id','t_ext','t_inh','aveT'}, axis = 1)
     time_count = list(np.arange(0, 644*0.03, 0.03))
     new_co = {}
