@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
@@ -51,56 +52,45 @@ def convert_frame(trace):  # Change the column name from frame num to seconds
     return trace
 
 #
-reg_type = 'nonreg'
-
-cst1_df = pd.read_csv(fr"G:\2P_outputdata\pooled_cst_data\{reg_type}_cst1_statstrace.csv")
-sorted_cst1, seg1 = sort_trace(cst1_df)
-#cta_trace = list(map(lambda x: convert_frame(x), [sorted_cst1]))
-cta_trace = convert_frame(sorted_cst1)
+cst_df = pd.read_csv("filepath")
+sorted_cst, seg = sort_trace(cst_df)
+cst_trace = convert_frame(sorted_cst)
              
-#
-time_count = [round(i) for i in list(np.arange(0, 644*0.03, 0.03))]
-xticks = [ i for i in list(np.arange(0, 644, 60))]
-
-#Plot sorted heatmap 
+# Plot sorted heatmap 
 fig, ax = plt.subplots(1,2, figsize=(5.5,5.5), gridspec_kw= {'width_ratios' : (1, 0.08)})
-session_list = ['CST1','CST2']
-
-sns.heatmap(cta_trace, cmap = 'magma', cbar_kws = {r'label': '$\Delta$F/F (z-scores)'}, 
+sns.heatmap(cst_trace, cmap = 'magma', cbar_kws = {r'label': '$\Delta$F/F (z-scores)'}, 
     cbar_ax = ax[1],  ax = ax[0], vmin = -5, vmax = 20)
-
-#ax[i].set_title(session_list[i], fontsize = 24, y = 1.05)
 
 cbar = ax[0].collections[0].colorbar
 cbar.ax.yaxis.set_label_position('left')
 
-
-# need to reduce the number of x-ticks 
-ax[0].vlines([154,216,231,343] ,0,len(cta_trace), color = ['lightgrey','lightgrey','yellow','yellow'], 
+ax[0].vlines([154,216,231,343] ,0,len(cst_trace), color = ['lightgrey','lightgrey','yellow','yellow'], 
              ls= '--', lw = 2)
 
-ax[0].hlines(seg1[-2], 0, len(cta_trace.columns),
+ax[0].hlines(seg[-2], 0, len(cst_trace.columns),
              color = 'w', lw = 2)
 
-ax[0].hlines(seg1[2], 0, len(cta_trace.columns),
+ax[0].hlines(seg[2], 0, len(cst_trace.columns),
              color = 'w', lw = 2) 
 
 ax[0].set_ylabel('cell ID', fontsize = 20)
 ax[0].set_xlabel('Second', fontsize = 20)
-ax[0].tick_params('x', rotation = 45)
-ax[0].set_xticks(xticks, cta_trace.columns[::60])
 
-# set ticks 
-yticks = [ i for i in list(np.arange(0, len(cta_trace), 20))]
-ax[0].set_yticks(yticks, cta_trace.index[::20])
+# Set x-ticks
+xticks = [ i for i in list(np.arange(0, 644, 60))]
+ax[0].tick_params('x', rotation = 45)
+ax[0].set_xticks(xticks, cst_trace.columns[::60]) # Reduce the number of x-ticks 
+
+# Set y-ticks 
+yticks = [ i for i in list(np.arange(0, len(cst_trace), 20))]
+ax[0].set_yticks(yticks, cst_trace.index[::20])
 
 plt.suptitle('CST', fontsize = 24, fontweight = 'bold', color= 'navy',  y= 0.95)    
 plt.tight_layout()
 plt.show()
 
-#%% print the total cell number for each session 
-
-print(f'{len(cta_trace)} cells')
+# Print the total cell number for each session
+print(f'{len(cst_trace)} cells')
     
 
 
