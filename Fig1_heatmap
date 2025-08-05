@@ -23,7 +23,6 @@ plt.rcParams['ytick.labelsize'] = 14
 plt.rcParams['legend.fontsize'] = 12
 plt.rcParams['figure.autolayout'] = True
 
-#%%
 def sort_trace(df):
     seg_1 = df[(df.c_ext == True) & (df.l_ext == False) & (df.t_ext == False)].reset_index(drop = True)
     seg_2 = df[(df.c_ext == False) & (df.l_ext == True) & (df.t_ext == False)].reset_index(drop = True)
@@ -49,7 +48,7 @@ def sort_trace(df):
 
     return sorted_df, seg_count
 
-#%% Change the column name from frame num to seconds 
+# Change the column name from frame num to seconds 
 def convert_frame(trace):
     trace = trace.drop(columns = {'animalID', 'cs_id','t_ext','t_inh','aveT'}, axis = 1)
     time_count = list(np.arange(0, 644*0.03, 0.03))
@@ -60,7 +59,7 @@ def convert_frame(trace):
     
     return trace
 
-#%%
+#
 reg_type = 'nonreg'
 
 cst1_df = pd.read_csv(fr"G:\2P_outputdata\pooled_cst_data\{reg_type}_cst1_statstrace.csv")
